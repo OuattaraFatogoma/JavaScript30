@@ -23,6 +23,24 @@
 
   <style>
 
+  :root{
+    --base : #ffc600;
+    --spacing : 10px;
+    --blur : 10px;
+  }
+
+  img{
+    box-sizing: border-box;
+    padding: var(--spacing);
+    background-color: var(--base);
+    filter: blur(var(--blur));
+  }
+
+  .hl{
+    color: var(--base);
+  }
+
+
     /*
       misc styles, nothing to do with CSS variables
     */
@@ -46,6 +64,23 @@
   </style>
 
   <script>
+
+    const inputs = document.querySelectorAll('input');
+
+    function setNewValue(){
+      const suffix = this.dataset.sizing || "";
+      const value = this.value + suffix;
+      const property = this.name;
+      document.documentElement.style.setProperty(`--${property}`, value);
+
+    }
+
+    inputs.forEach(input => {
+      input.addEventListener('change', setNewValue);
+      input.addEventListener('mousemove', setNewValue);
+      input.addEventListener('mouseenter', setNewValue);
+    });
+
   </script>
 
 </body>

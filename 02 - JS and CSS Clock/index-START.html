@@ -11,7 +11,7 @@
     <div class="clock">
       <div class="clock-face">
         <div class="hand hour-hand"></div>
-        <div class="hand min-hand"></div>
+        <div class="hand minute-hand"></div>
         <div class="hand second-hand"></div>
       </div>
     </div>
@@ -57,18 +57,67 @@
       transform: translateY(-3px); /* account for the height of the clock hands */
     }
 
+    .clock-face::after{
+      display: block;
+      content: '';
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background-color: black;
+      top: calc(50% - 6px) ;
+      left: calc(50% - 6px);
+    }
+
+
     .hand {
       width: 50%;
       height: 6px;
       background: black;
       position: absolute;
       top: 50%;
+      transform-origin: right 50%;
+      transform: rotate(90deg);
+      transition: rotate 1s cubic-bezier(0.15,-0.37, 0.93, 1.5);
     }
 
+    .second-hand{
+      height: 2px;
+      background-color: darkred;
+    }
+
+    .minute-hand{
+      height: 4px;
+      background-color: antiquewhite;
+    }
   </style>
-
+    
   <script>
+    const secondHand = document.querySelector(".second-hand");
+    const minuteHand = document.querySelector(".minute-hand");
+    const hourHand = document.querySelector(".hour-hand");
 
+
+    function setDate(){
+      const date = new Date();
+
+      const second = date.getSeconds();
+      const secondRotDeg = (second / 60) * 360 + 90;
+      //console.log("Second",second, secondRotDeg)
+      secondHand.style.transform = `rotate(${secondRotDeg}deg)`;
+
+      const minute = date.getMinutes();
+      const minuteRotDeg = (minute / 60) * 360 + 90;
+      //console.log("Minutes",minute, minuteRotDeg)
+      minuteHand.style.transform = `rotate(${minuteRotDeg}deg)`;
+
+      const hour = date.getHours();
+      const hourRotDeg = (hour / 24) * 360 + 90;
+      //console.log("Hour",hour, hourRotDeg)
+      hourHand.style.transform = `rotate(${hourRotDeg}deg)`;
+    }
+
+    setInterval(setDate, 1000);
 
   </script>
 </body>
