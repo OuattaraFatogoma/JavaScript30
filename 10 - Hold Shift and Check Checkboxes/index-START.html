@@ -97,6 +97,35 @@
   </div>
 
 <script>
+  const items =[...document.querySelectorAll('.item input')];
+  let before = null;
+  let after = null;
+  let shiftDown = false;
+
+ items.forEach((item,index ) => item.addEventListener("change", (event) => handleCheck(event, index)));
+ window.addEventListener("keydown", (event)=>{if(event.key === "Shift" ) shiftDown=true;});
+ window.addEventListener("keyup",   (event)=>{if(event.key === "Shift" ) shiftDown=false;});
+
+ function checkboxes(a, b){
+  if(a-b > 0) [a , b] = [b , a];
+  for(let i = a; i<=b; i++){
+    items[i].checked = true;
+  }
+ }
+
+ function handleCheck(event, index){
+  if(shiftDown){
+    if(event.target.checked) after = index;
+    else after = null;
+  }else{
+    if(event.target.checked) before = index;
+    else before = null;
+    after = null;
+  }
+  console.log({before}, {after});
+  if(before!=null && after!=null) checkboxes(after, before);
+ }
+
 </script>
 </body>
 </html>
